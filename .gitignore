@@ -1,0 +1,94 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+###################
+# FRONTEND (Angular)
+###################
+
+# Compiled output
+frontend/frontend-ticketero/dist
+frontend/frontend-ticketero/tmp
+frontend/frontend-ticketero/out-tsc
+frontend/frontend-ticketero/bazel-out
+
+# Node
+frontend/frontend-ticketero/node_modules
+frontend/frontend-ticketero/npm-debug.log
+frontend/frontend-ticketero/yarn-error.log
+
+# IDEs and editors
+frontend/frontend-ticketero/.idea/
+frontend/frontend-ticketero/.project
+frontend/frontend-ticketero/.classpath
+frontend/frontend-ticketero/.c9/
+frontend/frontend-ticketero/*.launch
+frontend/frontend-ticketero/.settings/
+frontend/frontend-ticketero/*.sublime-workspace
+
+# Visual Studio Code
+# Ignora todo en .vscode...
+frontend/frontend-ticketero/.vscode/*
+# ...PERO NO ignores estos archivos específicos (fíjate que '!' va primero)
+!frontend/frontend-ticketero/.vscode/settings.json
+!frontend/frontend-ticketero/.vscode/tasks.json
+!frontend/frontend-ticketero/.vscode/launch.json
+!frontend/frontend-ticketero/.vscode/extensions.json
+frontend/frontend-ticketero/.history/*
+
+# Miscellaneous
+frontend/frontend-ticketero/.angular/cache
+frontend/frontend-ticketero/.sass-cache/
+frontend/frontend-ticketero/connect.lock
+frontend/frontend-ticketero/coverage
+frontend/frontend-ticketero/libpeerconnection.log
+frontend/frontend-ticketero/testem.log
+frontend/frontend-ticketero/typings
+frontend/frontend-ticketero/__screenshots__/
+
+# System files
+frontend/frontend-ticketero/.DS_Store
+frontend/frontend-ticketero/Thumbs.db
+
+###################
+# BACKEND (Gradle)
+###################
+
+backend/HELP.md
+backend/.gradle
+backend/build/
+
+# NO ignores el wrapper de gradle (fíjate que '!' va primero)
+!backend/gradle/wrapper/gradle-wrapper.jar
+
+!backend/**/src/main/**/build/
+!backend/**/src/test/**/build/
+
+### STS ###
+backend/.apt_generated
+backend/.classpath
+backend/.factorypath
+backend/.project
+backend/.settings
+backend/.springBeans
+backend/.sts4-cache
+backend/bin/
+!backend/**/src/main/**/bin/
+!backend/**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+backend/.idea
+backend/*.iws
+backend/*.iml
+backend/*.ipr
+backend/out/
+!backend/**/src/main/**/out/
+!backend/**/src/test/**/out/
+
+### NetBeans ###
+backend/nbproject/private/
+backend/nbbuild/
+backend/dist/
+backend/nbdist/
+backend/.nb-gradle/
+
+### VS Code ###
+backend/.vscode/
