@@ -1,0 +1,148 @@
+/* === Fondo general === */
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #5ce1e6 0%, #00507d 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 1rem;
+}
+
+/* === Tarjeta principal === */
+.login-card {
+  background: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 18px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  animation: fadeIn 0.7s ease;
+}
+
+/* === Logo === */
+.logo-container {
+  margin-bottom: 1rem;
+}
+
+.logo {
+  width: 300px;
+  height: auto;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+}
+
+/* === Títulos === */
+.title {
+  margin-bottom: 0.4rem;
+  font-size: 1.6rem;
+  color: #00507d;
+  font-weight: 700;
+}
+
+.subtitle {
+  color: #027d9d;
+  margin-bottom: 1.8rem;
+  font-size: 0.95rem;
+}
+
+/* === Formulario === */
+.form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-weight: 600;
+  color: #004364;
+  margin-bottom: 0.4rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid #b3e6e8;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #00b4d8;
+  box-shadow: 0 0 5px rgba(0, 180, 216, 0.4);
+}
+
+/* === Botón === */
+.btn-login {
+  width: 100%;
+  background: linear-gradient(90deg, #00b4d8, #00507d);
+  color: white;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+.btn-login:hover {
+  background: linear-gradient(90deg, #0097c1, #004364);
+  transform: translateY(-2px);
+}
+
+/* === Animación de entrada === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === Diseño responsivo === */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 2rem 1.5rem;
+  }
+
+  .title {
+    font-size: 1.4rem;
+  }
+
+  .logo {
+    width: 90px;
+  }
+}
+
+  /* === Validación visual === */
+input.invalid {
+  border-color: #e63946;
+  background-color: #ffe6e6;
+}
+
+.error-message {
+  color: #e63946;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* Botón deshabilitado */
+.btn-login:disabled {
+  background: #b3d4db;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Color de borde distinto para error de correo */
+input[type="email"].invalid {
+  border-color: #d62828;
+  background-color: #ffe8e8;
+}

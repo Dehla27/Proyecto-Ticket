@@ -1,0 +1,63 @@
+<div class="login-wrapper">
+  <div class="login-card">
+    <div class="logo-container">
+      <img src="assets/logo-impro.png" alt="Logo IMPRO" class="logo">
+    </div>
+
+    <h2 class="title">Sistema Ticketero</h2>
+    <p class="subtitle">Instituto Financiero de Desarrollo IMPRO</p>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)">
+      <!-- Campo Usuario (correo electrónico) -->
+      <div class="form-group">
+        <label for="username">Correo electrónico</label>
+          <input
+            type="email"
+            id="username"
+            [(ngModel)]="username"
+            name="username"
+            required
+            email
+            #usernameField="ngModel"
+            [class.invalid]="usernameField.invalid && usernameField.touched"
+            placeholder="ejemplo@correo.com"
+          />
+        @if (usernameField.errors?.['required'] && usernameField.touched) {
+          <div class="error-message">El correo es obligatorio.</div>
+        }
+
+        @if (usernameField.errors?.['email'] && usernameField.touched) {
+          <div class="error-message">Debe ingresar un correo válido.</div>
+        }
+      </div>
+
+      <!-- Campo Contraseña -->
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          required
+          minlength="4"
+          #passwordField="ngModel"
+          [class.invalid]="passwordField.invalid && passwordField.touched"
+        />
+
+        @if (passwordField.errors?.['required'] && passwordField.touched) {
+          <div class="error-message">La contraseña es obligatoria.</div>
+        }
+
+        @if (passwordField.errors?.['minlength'] && passwordField.touched) {
+          <div class="error-message">La contraseña debe tener al menos 4 caracteres.</div>
+        }
+      </div>
+
+      <!-- Botón -->
+      <button type="submit" class="btn-login" [disabled]="loginForm.invalid">
+        Ingresar
+      </button>
+    </form>
+  </div>
+</div>
