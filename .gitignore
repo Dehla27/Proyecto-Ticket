@@ -92,3 +92,7 @@ backend/.nb-gradle/
 
 ### VS Code ###
 backend/.vscode/
+
+# Logs de error de JVM
+hs_err_pid*.log
+replay_pid*.log
