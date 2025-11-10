@@ -1,28 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { AuthService, LoginResponse } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css'
+  styleUrls: ['./login.css']
 })
 export class Login {
   username = '';
   password = '';
 
+  private authService = inject(AuthService);
+
   onLogin(form: NgForm) {
     if (form.invalid) {
-      form.control.markAllAsTouched(); // marca los campos para mostrar errores
+      form.control.markAllAsTouched();
       return;
     }
 
-    if (this.username === 'admin' && this.password === '1234') {
-      alert('Inicio de sesión exitoso');
-    } else {
-      alert('Credenciales incorrectas');
-    }
+    this.authService.login({ username: this.username, password: this.password })
+      .subscribe({
+        next: (response: LoginResponse) => {
+          console.log('Login exitoso:', response);
+          this.authService.saveToken(response.token);
+          alert('Inicio de sesión exitoso. Token guardado.');
+        },
+        error: (err) => {
+          console.error('Error en el login:', err);
+          alert('Credenciales incorrectas o error del servidor.');
+        }
+      });
   }
 }
