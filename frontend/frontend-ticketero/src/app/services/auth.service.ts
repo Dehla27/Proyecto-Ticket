@@ -1,10 +1,10 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 // --- Interfaces ---
 export interface LoginRequest {
-  username: string;  // debe coincidir con lo que espera tu backend (puede ser 'email')
+  username: string;
   password: string;
 }
 
@@ -19,15 +19,19 @@ export interface LoginResponse {
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:8080/api/auth'; // Ajusta si tu backend usa otro prefijo
+
+  //URL del backend
+  private apiUrl = 'http://localhost:8080/api/auth';
+
+  constructor() {}
 
   // Inicia sesión con las credenciales
   login(credentials: LoginRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials);
+    return this.http.post<LoginResponse>(this.apiUrl, credentials);
   }
 
   // Guarda el token JWT localmente
-  saveToken(token: string): void {
+  saveToken(token: string) {
     localStorage.setItem('authToken', token);
   }
 
@@ -37,7 +41,7 @@ export class AuthService {
   }
 
   // Cierra sesión
-  logout(): void {
+  logout() {
     localStorage.removeItem('authToken');
   }
 }
