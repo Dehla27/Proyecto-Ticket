@@ -2,11 +2,12 @@ package com.impro.backend.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,27 +25,41 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "_user")
+@Table(name = "usuario", schema = "public")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_usuario")
     private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String username;
+    @Column(name = "nombre")
+    private String nombre;
 
-    @Column(nullable = false)
+    @Column(name = "apellido")
+    private String apellido;
+
+    @Column(name = "correo", unique = true, nullable = false)
+    private String email; // Usaremos 'email' como nombre de variable en Java, mapeado a 'correo' en BD
+
+    @Column(name = "estado")
+    private Boolean active; // Mapeado a la columna 'estado' (true/false)
+
+    @Column(name = "contraseña", nullable = false)
     private String password;
 
     //agragar mas campos si es necesario
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @Column(name = "id_sucursal_foranea")
+    private Integer idSucursal;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_rol_foranea")
+    private Role rol;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + rol.getNombre().toUpperCase()));
     }
 
     @Override
@@ -54,7 +69,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email;
     }
     
     @Override
