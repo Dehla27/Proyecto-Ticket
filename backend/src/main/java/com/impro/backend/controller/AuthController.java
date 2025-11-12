@@ -2,6 +2,9 @@ package com.impro.backend.controller;
 
 import com.impro.backend.service.JwtService;
 import com.impro.backend.dto.LoginResponse;
+import com.impro.backend.dto.RegisterRequest;
+import com.impro.backend.dto.UserResponse;
+import com.impro.backend.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -26,6 +29,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -40,4 +44,12 @@ public class AuthController {
         final String jwtToken = jwtService.generateToken(userDetails);
         return ResponseEntity.ok(new LoginResponse(jwtToken, loginRequest.getUsername()));
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserResponse> registerUser(@RequestBody RegisterRequest request) {
+        UserResponse userResponse = userService.registerUser(request);
+        return ResponseEntity.ok(userResponse);
+    }
+    
+
 }
