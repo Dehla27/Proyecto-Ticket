@@ -2,6 +2,7 @@ package com.impro.backend.service;
 
 import com.impro.backend.dto.RegisterRequest;
 import com.impro.backend.dto.UserResponse;
+import com.impro.backend.dto.UpdateUserRequest;
 import com.impro.backend.model.Role;
 import com.impro.backend.model.User;
 import com.impro.backend.repository.RoleRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -75,5 +77,46 @@ public class UserService {
         return mapToUserResponse(user);
     }
     
+    @Transactional
+    public UserResponse updateUser(Integer id, UpdateUserRequest request){
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con id: " + id));
+
+        if (request.getEmail() != null && !request.getEmail().equalsIgnoreCase(user.getEmail())) {
+            Optional<User> userWithNewEmail = userRepository.findByEmail(request.getEmail());
+            if (userWithNewEmail.isPresent() && !userWithNewEmail.get().getId().equals(id)) {
+                throw new IllegalArgumentException("El correo ya ha sido registrado");
+            }
+            user.setEmail(request.getEmail());
+        }
+
+        if  (request.getNombre() != null) {
+            user.setNombre(request.getNombre());
+        }
+        if (request.getApellido() != null) {
+            user.setApellido(request.getApellido());
+        }
+        if (request.getActive() != null) {
+            user.setActive(request.getActive());
+        }
+
+        if (request.getIdRol() != null){
+            Role newRole = roleRepository.findById(request.getIdRol())
+                    .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado"));
+        }
+
+        User updatedUser = userRepository.save(user);
+
+        return mapToUserResponse(updatedUser);
+    }
+
+    @Transactional
+    public void deleteUser(Integer id){
+
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con id:" + id));
+        userRepository.delete(user);
+    }
 
 }
