@@ -21,7 +21,7 @@ export class AuthService {
   private http = inject(HttpClient);
 
   //URL del backend
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = 'http://localhost:8080/api/auth/login';
 
   constructor() {}
 

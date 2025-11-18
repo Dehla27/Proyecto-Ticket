@@ -30,7 +30,12 @@ export class LoginComponent {
           console.log('Login exitoso:', response);
           this.authService.saveToken(response.token);
           this.message = `Bienvenido, ${response.username}`;
+          localStorage.setItem('currentUserEmail', response.username);
           alert(this.message);
+
+          //Redirigir al dashboard
+          // router.navigate([/dashboard]);
+          
         },
         error: (err) => {
           console.error('Error en el login:', err);

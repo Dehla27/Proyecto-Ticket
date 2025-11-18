@@ -1,0 +1,24 @@
+<div class="kiosko-container">
+
+  <header class="kiosko-header">
+    <h1>Bienvenido</h1>
+    <p>Toca la pantalla para solicitar tu turno</p>
+  </header>
+
+  <main class="kiosko-main">
+    <button class="kiosko-button" (click)="generarTurno()">
+      🟢 GENERAR TICKET
+    </button>
+
+    <div class="ticket-result" *ngIf="ticket">
+      <h2>Tu ticket es:</h2>
+      <span class="ticket-number">{{ ticket }}</span>
+      <p class="ticket-message">Por favor, espera a ser llamado</p>
+    </div>
+  </main>
+
+  <footer class="kiosko-footer">
+    <p>Institución Financiera · Sistema Ticketero</p>
+  </footer>
+
+</div>

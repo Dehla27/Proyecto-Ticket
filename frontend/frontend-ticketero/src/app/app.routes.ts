@@ -6,7 +6,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
-
   { path: 'login', component: LoginComponent },
 
   {
@@ -14,6 +13,13 @@ export const routes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard]
   },
+
+  // RUTA KIOSKO (Estilo Módulo / Lazy Loading Clásico)
+  {
+    path: 'kiosko',
+    loadChildren: () => import('./kiosko/kiosko.module').then(m => m.KioskoModule)
+  },
+
 
   { path: '**', redirectTo: '/login' }
 ];

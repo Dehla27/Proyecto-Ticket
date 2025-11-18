@@ -1,0 +1,42 @@
+.dashboard-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-card {
+  background: #f4f4f4;
+  padding: 15px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+input, select {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #00507d;
+  color: white;
+}
+
+.active { color: green; font-weight: bold; }
+.inactive { color: red; font-weight: bold; }
+
+.btn-save { background-color: #00b4d8; color: white; border: none; padding: 8px 15px; cursor: pointer; margin-right: 5px; }
+.btn-cancel { background-color: #6c757d; color: white; border: none; padding: 8px 15px; cursor: pointer; }
+.btn-edit { background-color: #ffc107; border: none; padding: 5px 10px; cursor: pointer; margin-right: 5px; border-radius: 4px;}
+.btn-delete { background-color: #dc3545; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px;}
