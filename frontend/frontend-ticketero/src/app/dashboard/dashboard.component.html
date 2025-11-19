@@ -1,150 +1,18 @@
 <div class="dashboard-container">
   
-  <header class="dashboard-header">
-    <div class="header-content">
-      <h1>Sistema Ticketero</h1>
-      <div class="user-badge">
-        <span>Usuario: <strong>{{ currentUser || 'Desconocido' }}</strong></span>
-      </div>
-    </div>
-    <button (click)="logout()" class="btn-logout">Cerrar Sesión</button>
-  </header>
+  <!-- SIDE MENU -->
+  <aside class="sidebar">
+    <h2 class="logo">Dashboard</h2>
+    <ul>
+      <li><a routerLink="usuarios" routerLinkActive="active">Usuarios</a></li>
+      <li><a routerLink="kiosko" routerLinkActive="active">Kiosko</a></li>
+      <li><a routerLink="tickets" routerLinkActive="active">Tickets</a></li>
+    </ul>
+  </aside>
 
-  <hr class="divider">
-
-  <div *ngIf="isLoading" class="loading-state">
-    <div class="spinner"></div>
-    <p>Verificando permisos...</p>
-  </div>
-
-  <div *ngIf="!isLoading && isAdmin; else accessDeniedTemplate" class="admin-view fade-in">
-    
-    <div class="panel-header">
-      <h2>Administración de Usuarios</h2>
-    </div>
-
-    <div class="content-wrapper">
-      
-      <div class="form-card">
-        <div class="card-header">
-          <h3>{{ isEditing ? 'Editar Usuario' : 'Nuevo Usuario' }}</h3>
-        </div>
-        
-        <form (ngSubmit)="onSubmit()" #userFormDir="ngForm">
-          
-          <div class="form-row">
-            <div class="form-group">
-              <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" [(ngModel)]="userForm.nombre" name="nombre" required placeholder="Ej: Juan" class="form-input">
-            </div>
-
-            <div class="form-group">
-              <label for="apellido">Apellido</label>
-              <input type="text" id="apellido" [(ngModel)]="userForm.apellido" name="apellido" required placeholder="Ej: Pérez" class="form-input">
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="correo">Correo Electrónico</label>
-            <input type="email" id="correo" [(ngModel)]="userForm.correo" name="correo" required email placeholder="juan@impro.com" class="form-input">
-          </div>
-          
-          <div class="form-group" *ngIf="!isEditing">
-            <label for="pass">Contraseña</label>
-            <input type="password" id="pass" [(ngModel)]="userForm.password" name="pass" required minlength="4" class="form-input">
-            <small class="hint">Mínimo 4 caracteres.</small>
-          </div>
-          
-          <div class="form-group">
-            <label for="rol">Rol Asignado</label>
-            <select id="rol" [(ngModel)]="userForm.idRol" name="rol" required class="form-select">
-              <option [value]="1">Administrador</option>
-              <option [value]="2">Operador / Usuario</option>
-            </select>
-          </div>
-          
-          <div class="form-group-checkbox" *ngIf="isEditing">
-            <label class="checkbox-label">
-              <input type="checkbox" [(ngModel)]="userForm.active" name="active">
-              Usuario Activo
-            </label>
-          </div>
-
-          <div class="form-actions">
-            <button type="submit" class="btn-save" [disabled]="userFormDir.invalid">
-              {{ isEditing ? 'Guardar Cambios' : 'Crear Usuario' }}
-            </button>
-            
-            <button type="button" (click)="resetForm()" class="btn-cancel" *ngIf="isEditing || userFormDir.dirty">
-              Cancelar
-            </button>
-          </div>
-        </form>
-      </div>
-
-      <div class="table-card">
-        <div class="card-header">
-          <h3>Lista de Usuarios Registrados ({{ users.length }})</h3>
-        </div>
-        
-        <div class="table-responsive">
-          <table>
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre Completo</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let user of users">
-                <td>#{{ user.id }}</td>
-                <td>{{ user.nombre }} {{ user.apellido }}</td>
-                <td>{{ user.correo }}</td>
-                <td>
-                  <span class="badge" [ngClass]="{'badge-admin': user.rolNombre === 'ADMINISTRADOR', 'badge-user': user.rolNombre !== 'ADMINISTRADOR'}">
-                    {{ user.rolNombre }}
-                  </span>
-                </td>
-                <td>
-                  <span class="status-indicator" [ngClass]="{'status-active': user.active, 'status-inactive': !user.active}">
-                    {{ user.active ? 'Activo' : 'Inactivo' }}
-                  </span>
-                </td>
-                <td class="actions-cell">
-                  <button (click)="editUser(user)" class="btn-icon edit" title="Editar">
-                    ✏️
-                  </button>
-                  <button (click)="deleteUser(user.id)" class="btn-icon delete" title="Eliminar">
-                    🗑️
-                  </button>
-                </td>
-              </tr>
-              
-              <tr *ngIf="users.length === 0">
-                <td colspan="6" class="empty-state">
-                  No se encontraron usuarios. ¡Agrega uno nuevo!
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <ng-template #accessDeniedTemplate>
-    <div *ngIf="!isLoading" class="access-denied-card fade-in">
-      <div class="icon-lock">🔒</div>
-      <h2>Acceso Restringido</h2>
-      <p>Hola <strong>{{ currentUser }}</strong>, has iniciado sesión correctamente.</p>
-      <p>Sin embargo, tu perfil no tiene permisos para gestionar usuarios.</p>
-      <small>Si crees que esto es un error, contacta al departamento de sistemas.</small>
-    </div>
-  </ng-template>
+  <!-- MAIN AREA -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
 
 </div>

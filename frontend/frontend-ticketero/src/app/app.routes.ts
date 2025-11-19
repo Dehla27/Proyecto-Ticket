@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth-guard';
 import { LoginComponent } from './auth/login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { KioskoComponent } from './kiosko/kiosko.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -11,13 +12,14 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
+    loadChildren: () => import('./dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES)
   },
 
-  // RUTA KIOSKO (Estilo Módulo / Lazy Loading Clásico)
+  // RUTA KIOSKO
   {
     path: 'kiosko',
-    loadChildren: () => import('./kiosko/kiosko.module').then(m => m.KioskoModule)
+    component: KioskoComponent
   },
 
 

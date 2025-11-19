@@ -1,0 +1,46 @@
+<h2>Gestión de Usuarios</h2>
+
+<button class="btn" (click)="nuevoUsuario()">Nuevo Usuario</button>
+
+<table class="tabla">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.id }}</td>
+      <td>{{ user.nombre }}</td>
+      <td>{{ user.correo }}</td>
+      <td>{{ user.rol }}</td>
+      <td>
+        <button (click)="editarUsuario(user)">Editar</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Formulario de Crear/Editar -->
+<div *ngIf="selectedUser" class="modal">
+  <div class="modal-content">
+    <h3>{{ selectedUser.id === 0 ? 'Nuevo Usuario' : 'Editar Usuario' }}</h3>
+
+    <label>Nombre:</label>
+    <input [(ngModel)]="selectedUser.nombre" />
+
+    <label>Correo:</label>
+    <input [(ngModel)]="selectedUser.correo" />
+
+    <label>Rol:</label>
+    <input [(ngModel)]="selectedUser.rol" />
+
+    <button (click)="guardarUsuario()">Guardar</button>
+    <button (click)="cancelar()">Cancelar</button>
+  </div>
+</div>
