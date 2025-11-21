@@ -1,6 +1,8 @@
 package com.impro.backend.config;
 
 import com.impro.backend.service.JwtService;
+import com.impro.backend.service.TokenBlackListService;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +28,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+    private final TokenBlackListService tokenBlackListService;
 
     @Override
     protected void doFilterInternal(
@@ -44,6 +47,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
         jwt = authHeader.substring(7);
         userEmail = jwtService.extractUsername(jwt);
+
+        if (tokenBlackListService.isTokenBlacklisted(jwt)) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token revocado/cerrado");
+            return;
+        }
 
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
