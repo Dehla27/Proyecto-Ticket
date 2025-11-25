@@ -9,15 +9,17 @@ import { of } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
   private http = inject(HttpClient);
   
+  //Endpoints
   private apiUrl = 'http://localhost:8080/api/users';
   private authUrl = 'http://localhost:8080/api/auth';
 
   constructor() { }
 
-  // LEER (Read)
+  // LISTAR (GET)
   getAllUsers(): Observable<UserResponse[]> {
     return this.http.get<UserResponse[]>(this.apiUrl);
   }
@@ -37,7 +39,7 @@ export class UserService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  //Método auxiliar para obtener el ususario logueado actualmente
+  //Método auxiliar para obtener el usuario logueado actualmente
   getCurrentUser(): Observable<UserResponse | undefined> {
     const email = localStorage.getItem('currentUserEmail');
     

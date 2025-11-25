@@ -1,24 +1,39 @@
 <div class="kiosko-container">
-
+  
   <header class="kiosko-header">
+    <img src="assets/logo-impro.png" alt="Logo" class="logo">
     <h1>Bienvenido</h1>
-    <p>Toca la pantalla para solicitar tu turno</p>
+    <p>Seleccione su trámite</p>
   </header>
 
-  <main class="kiosko-main">
-    <button class="kiosko-button" (click)="generarTurno()">
-      🟢 GENERAR TICKET
+  <div class="options-grid">
+    <button class="option-card" (click)="generarTurno('Plataforma')">
+      <div class="icon">📄</div>
+      <h3>Plataforma</h3>
+      <p>Atención al Cliente</p>
     </button>
 
-    <div class="ticket-result" *ngIf="ticket">
-      <h2>Tu ticket es:</h2>
-      <span class="ticket-number">{{ ticket }}</span>
-      <p class="ticket-message">Por favor, espera a ser llamado</p>
-    </div>
-  </main>
+    <button class="option-card" (click)="generarTurno('Cajas')">
+      <div class="icon">💰</div>
+      <h3>Cajas</h3>
+      <p>Pagos y Depósitos</p>
+    </button>
 
-  <footer class="kiosko-footer">
-    <p>Institución Financiera · Sistema Ticketero</p>
-  </footer>
+    <button class="option-card" (click)="generarTurno('Preferencial')">
+      <div class="icon">♿</div>
+      <h3>Preferencial</h3>
+      <p>Atención Prioritaria</p>
+    </button>
+  </div>
+
+  <div class="ticket-modal" *ngIf="ticket">
+    <div class="ticket-content">
+      <h2>¡Turno Generado!</h2>
+      <div class="ticket-number">{{ ticket.numero }}</div>
+      <p>Servicio: {{ ticket.servicio }}</p>
+      <p class="time">{{ ticket.fecha | date:'mediumTime' }}</p>
+      <p class="instruction">Por favor, espere su llamado.</p>
+    </div>
+  </div>
 
 </div>
