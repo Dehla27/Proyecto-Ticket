@@ -9,9 +9,10 @@ import com.impro.backend.model.TipoTicket;
 import com.impro.backend.repository.SucursalRepository;
 import com.impro.backend.repository.TicketRepository;
 import com.impro.backend.repository.TipoTicketRepository;
+import com.impro.backend.util.EstadoTicket;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.cglib.core.Local;
+//import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,7 +70,7 @@ public class TicketService {
                 .tipoTicket(tipo)
                 .sucursal(sucursal)
                 .numeroTicket(numeroFormateado)
-                .estado("EN_ESPERA")
+                .estado(EstadoTicket.EN_ESPERA)
                 .build();
         Ticket ticketGuardado = ticketRepository.save(nuevoTicket);
 
@@ -85,7 +86,7 @@ public class TicketService {
 
     @Transactional(readOnly = true)
     public List<TicketResponse> obtenerColaDeEspera() {
-        return ticketRepository.findByEstadoAndSucursalIdOrderByFechaCreacionAsc("EN_ESPERA", SUCURSAL_ID_TEST)
+        return ticketRepository.findByEstadoAndSucursalIdOrderByFechaCreacionAsc(EstadoTicket.EN_ESPERA, SUCURSAL_ID_TEST)
                 .stream()
                 .map(ticket -> TicketResponse.builder()
                         .id(ticket.getId())
@@ -96,5 +97,4 @@ public class TicketService {
                         .build())
                 .collect(Collectors.toList());
     }
-
 }
