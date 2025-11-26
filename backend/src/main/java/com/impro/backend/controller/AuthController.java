@@ -1,6 +1,7 @@
 package com.impro.backend.controller;
 
 import com.impro.backend.service.JwtService;
+import com.impro.backend.service.TokenBlackListService;
 import com.impro.backend.dto.LoginResponse;
 import com.impro.backend.dto.RegisterRequest;
 import com.impro.backend.dto.UserResponse;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
-
+import jakarta.servlet.http.HttpServletRequest;
 import com.impro.backend.dto.LoginRequest;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Date;
 
 
 @RestController
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class AuthController {
 
+    private final TokenBlackListService tokenBlackListService;
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
@@ -51,5 +55,18 @@ public class AuthController {
         return ResponseEntity.ok(userResponse);
     }
     
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest request){
+        String authHeader = request.getHeader("Authorization");
+
+        if(authHeader != null && authHeader.startsWith("Bearer ")){
+            
+            String token = authHeader.substring(7);
+            Date expiration = jwtService.extractExpiration(token);
+            tokenBlackListService.blacklistToken(token, expiration.getTime());
+            return ResponseEntity.ok("Logout exitodo. Token invalidado");
+        }
+        return ResponseEntity.badRequest().body("No se proporciono un token valido");
+    }
 
 }

@@ -10,9 +10,12 @@ import com.impro.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+//import java.security.Security;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -80,6 +83,11 @@ public class UserService {
     @Transactional
     public UserResponse updateUser(Integer id, UpdateUserRequest request){
 
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        boolean isAdmin = currentUser.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado con id: " + id));
 
@@ -102,8 +110,14 @@ public class UserService {
         }
 
         if (request.getIdRol() != null){
+
+            if(!isAdmin){
+                throw new AccessDeniedException("No tienes permiso para cambiar el rol");
+            }
             Role newRole = roleRepository.findById(request.getIdRol())
                     .orElseThrow(() -> new IllegalArgumentException("Rol no encontrado"));
+
+            user.setRol(newRole);
         }
 
         User updatedUser = userRepository.save(user);
