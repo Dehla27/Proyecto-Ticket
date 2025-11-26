@@ -208,3 +208,23 @@ th {
 .delete { color: var(--danger); }
 
 .text-center { text-align: center; }
+
+/* Estilos para Loading y Access Denied */
+.loading-container, .access-denied {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  text-align: center;
+}
+
+.denied-card {
+  max-width: 500px;
+  border-left: 5px solid var(--danger);
+  padding: 30px;
+}
+
+.denied-card h3 {
+  color: var(--danger);
+  margin-bottom: 15px;
+}

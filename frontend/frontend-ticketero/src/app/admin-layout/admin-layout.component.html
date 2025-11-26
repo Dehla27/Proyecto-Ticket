@@ -1,0 +1,28 @@
+<div class="admin-container">
+  <aside class="sidebar">
+    <div class="logo-area">
+      <img src="assets/logo-impro.png" alt="Logo" class="sidebar-logo">
+      <h3>Panel Admin</h3>
+    </div>
+    
+    <nav class="nav-menu">
+      <a routerLink="/admin/users" routerLinkActive="active" class="nav-item">
+        <span class="icon">👥</span> Usuarios
+      </a>
+      
+      <a routerLink="/admin/reportes" routerLinkActive="active" class="nav-item disabled">
+        <span class="icon">📊</span> Reportes (Pronto)
+      </a>
+    </nav>
+
+    <div class="user-profile">
+      <small>Conectado como:</small>
+      <div class="username">{{ currentUser }}</div>
+      <button (click)="logout()" class="btn-logout-small">Salir</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

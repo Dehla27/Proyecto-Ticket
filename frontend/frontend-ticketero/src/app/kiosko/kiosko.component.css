@@ -9,6 +9,74 @@
   padding: 20px;
 }
 
+.logo {
+  height: 60px;
+  margin-bottom: 1rem;
+}
+
+.options-grid { 
+  display: flex; 
+  justify-content: center; 
+  gap: 20px; 
+  margin-top: 30px; 
+  flex-wrap: wrap; 
+}
+
+.option-card { 
+  background: white; 
+  border: none; 
+  padding: 30px; 
+  border-radius: 15px; 
+  width: 200px; 
+  cursor: pointer; 
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.2s; 
+}
+
+.option-card:hover { 
+  transform: translateY(-5px); 
+  background: #e3f2fd; 
+}
+
+.icon { 
+  font-size: 3rem; 
+  margin-bottom: 10px; 
+}
+
+h3 {
+  color: #00507d; 
+  margin: 0; 
+}
+
+/* Modal del ticket */
+.ticket-modal { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100%; 
+  height: 100%; 
+  background: rgba(0,0,0,0.5); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+.ticket-content { 
+  background: white; 
+  padding: 40px; 
+  border-radius: 10px; 
+  width: 300px; 
+  text-align: center; 
+  border-top: 5px solid #00b4d8; 
+}
+
+.ticket-number { 
+  font-size: 3rem; 
+  font-weight: bold; 
+  color: #00507d; 
+  margin: 10px 0; 
+}
+
 /* HEADER */
 .kiosko-header h1 {
   font-size: 3.5rem;

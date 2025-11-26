@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService, LoginResponse } from '../../services/auth.service';
 
 @Component({
@@ -15,8 +16,8 @@ export class LoginComponent {
   password = '';
   message = '';
 
-  constructor(private authService: AuthService) {}
-  
+  constructor(private authService: AuthService, private router: Router) {}
+
   onLogin(form: NgForm) {
     if (form.invalid) {
       form.control.markAllAsTouched();
@@ -28,13 +29,20 @@ export class LoginComponent {
       subscribe({
         next: (response: LoginResponse) => {
           console.log('Login exitoso:', response);
+          //1. Guardar Token
           this.authService.saveToken(response.token);
-          this.message = `Bienvenido, ${response.username}`;
+          localStorage.setItem('username', response.username);
+
+          //2. Guardar el usuario (email) para usuario en el Dashboard
           localStorage.setItem('currentUserEmail', response.username);
           alert(this.message);
 
-          //Redirigir al dashboard
-          // router.navigate([/dashboard]);
+          this.message = `Bienvenido, ${response.username}`;
+          this.authService.saveToken(response.token);
+          localStorage.setItem('username', response.username);
+
+          //Redirigir a la ruta padre
+          this.router.navigate(['/admin']);;
           
         },
         error: (err) => {

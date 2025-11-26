@@ -1,9 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { UserService } from '../services/user';
-import { AuthService } from '../services/auth.service';
 import { UserResponse, CreateUserRequest, UpdateUserRequest } from '../models/user';
 
 @Component({
@@ -20,28 +18,51 @@ export class DashboardComponent implements OnInit {
   // Estado
   users: UserResponse[] = [];
   currentUser: string | null = '';
-  isEditing: boolean = false;
+
+  //Variables para el control de acceso
+  isAdmin: boolean = false; //¿Es administrador?
+  isLoading: boolean = true; //¿Estamos cargando datos?
 
   // Formulario
+  isEditing = false;
   userForm: any = {
     id: null,
     nombre: '',
     apellido: '',
     correo: '',
     password: '',
-    idRol: 2, // Por defecto Operador
+    idRol: 2,
     active: true
   };
 
   ngOnInit() {
-    this.currentUser = localStorage.getItem('username'); // Tu código original
+    //Recupera el usuario guardado en el Login
+    this.currentUser = localStorage.getItem('username');
     this.loadUsers();
   }
 
   loadUsers() {
+    this.isLoading = true; //Iniciamos carga
     this.userService.getAllUsers().subscribe({
-      next: (data) => this.users = data,
-      error: (e) => console.error('Error cargando usuarios', e)
+      next: (data) => {
+        this.users = data;
+
+        // --- VALIDACIÓN DE ROL ---
+        // Buscamos al usuario actual en la lista para ver su rol
+        const myProfile = this.users.find(u => u.correo === this.currentUser);
+        
+        if (myProfile && myProfile.rolNombre.toUpperCase() === 'ADMINISTRADOR') {
+          this.isAdmin = true;
+        } else {
+          this.isAdmin = false;
+        }
+        
+        this.isLoading = false; // Terminamos carga
+      },
+      error: (err) => {
+        console.error('Error cargando usuarios', err);
+        this.isLoading = false;
+      }
     });
   }
 
@@ -85,7 +106,7 @@ export class DashboardComponent implements OnInit {
 
     this.userService.updateUser(this.userForm.id, request).subscribe({
       next: () => {
-        alert('Usuario actualizado');
+        alert('Usuario actualizado correctamente');
         this.resetForm();
         this.loadUsers();
       },
@@ -121,11 +142,5 @@ export class DashboardComponent implements OnInit {
   resetForm() {
     this.isEditing = false;
     this.userForm = { id: null, nombre: '', apellido: '', correo: '', contraseña: '', idRol: 2, active: true };
-  }
-  
-  logout() {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('username');
-    window.location.reload(); // O usar Router para redirigir
   }
 }
