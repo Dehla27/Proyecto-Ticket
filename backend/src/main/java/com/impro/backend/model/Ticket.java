@@ -59,7 +59,7 @@ public class Ticket {
     private User usuarioAtendio;
 
     @ManyToOne
-    @Column(name = "id_modulo")
+    @JoinColumn(name = "id_modulo")
     private Modulo idModulo;
 
     @PrePersist
