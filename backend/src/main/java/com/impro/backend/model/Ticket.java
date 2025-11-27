@@ -25,7 +25,7 @@ public class Ticket {
     private String numeroTicket;
 
     @Column(name = "descripcion")
-    private Integer descripcion;
+    private String descripcion;
 
     @Column(name = "estado",length = 50)
     private String estado;
